@@ -28,6 +28,9 @@ public class Main {
                     break;
                 }
                 String[] match = line.split(",");
+                if(match[0].equals("id")){
+                    continue;
+                }
                 matchesData.add(match);
             }
         }
@@ -46,7 +49,11 @@ public class Main {
                 if(line == null){
                     break;
                 }
+
                 String[] dilivery = line.split(",");
+                if(dilivery[0].equals("id")){
+                    continue;
+                }
                 deliveriesData.add(dilivery);
             }
         }
