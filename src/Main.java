@@ -12,8 +12,18 @@ public class Main {
 
         List<String[]>  deliveriesData = getDeliveriesData();
         List<String[]>  matchesData = getMatchesData();
-        findMatchesPlayedPerYearInIpl(matchesData);
-        find
+//        findMatchesPlayedPerYearInIpl(matchesData);
+        findMatchesWonPerTeam(matchesData);
+    }
+
+    private static void findMatchesWonPerTeam(List<String[]> matchesData) {
+        Map<String, Integer> matchesWonPerTeam =  new TreeMap<>();
+        for (String[] match : matchesData){
+            matchesWonPerTeam.put( match[10] , matchesWonPerTeam.getOrDefault( match[10],0)+1);
+        }
+        for (Map.Entry m : matchesWonPerTeam.entrySet()){
+            System.out.println( m.getKey()+" "+m.getValue());
+        }
     }
 
     private static void findMatchesPlayedPerYearInIpl(List<String[]>  matchesData ) {
@@ -25,6 +35,7 @@ public class Main {
             System.out.println( m.getKey()+" "+m.getValue());
         }
     }
+
 
 
 
