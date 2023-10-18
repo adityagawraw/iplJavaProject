@@ -41,14 +41,15 @@ public class Main {
         List <Map.Entry<String, Double>> bowlersSortedByTheirEconomy =new ArrayList<>(bowlersWithTheirEconomy.entrySet());
         Collections.sort(bowlersSortedByTheirEconomy, new Comparator<Map.Entry<String, Double>>() {
             public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-                if(o1.getValue() -o2.getValue() > 0) return -1;
-                else if(o1.getValue() -o2.getValue() < 0) return  -1;
-                return  0;
+                if(o1.getValue() -o2.getValue() > 0) return 1;
+                return  -1;
             }
         });
-         for (Map.Entry<String, Double> m : bowlersSortedByTheirEconomy){
-             System.out.println( m.getKey() + " "+ m.getValue());
-         }
+        System.out.println( bowlersSortedByTheirEconomy.get(0).getKey() + " "+ bowlersSortedByTheirEconomy.get(0).getValue());
+
+//        for (Map.Entry<String, Double> m : bowlersSortedByTheirEconomy){
+//             System.out.println( m.getKey() + " "+ m.getValue());
+//         }
     }
 
 //    private static Map<String, Integer> sortHashMapByValue(Map<String, Double> bowlersWithTheirEconomy) {
