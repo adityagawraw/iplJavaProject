@@ -1,5 +1,58 @@
+import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+        List<String[]>  deliveriesData = getDeliveriesData();
+        List<String[]>  matchesData = getMatchesData();
+        findMatchesPlayedPerYearInIpl();
+    }
+
+    private static void findMatchesPlayedPerYearInIpl() {
+
+    }
+
+    public static List<String[]> getMatchesData() {
+        List< String[]>  matchesData  = new ArrayList<>();
+        try {
+            FileReader file  = new FileReader("/home/aditya/IdeaProjects/iplJavaProject/src/matches.csv");
+            BufferedReader br = new BufferedReader(file);
+            while(true){
+                String line = br.readLine();
+                if(line == null){
+                    break;
+                }
+                String[] match = line.split(",");
+                matchesData.add(match);
+            }
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
+        return matchesData;
+    }
+    public static List<String[]> getDeliveriesData() {
+        List< String[]>  deliveriesData  = new ArrayList<>();
+        try {
+            FileReader file  = new FileReader("/home/aditya/IdeaProjects/iplJavaProject/src/deliveries.csv");
+            BufferedReader br = new BufferedReader(file);
+            while(true){
+                String line = br.readLine();
+                if(line == null){
+                    break;
+                }
+                String[] dilivery = line.split(",");
+                deliveriesData.add(dilivery);
+            }
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
+        return deliveriesData;
     }
 }
