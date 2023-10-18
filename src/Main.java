@@ -11,8 +11,52 @@ public class Main {
         List<String[]>  matchesData = getMatchesData();
 //        findMatchesPlayedPerYearInIpl(matchesData);
 //        findMatchesWonPerTeam(matchesData);
-        findExtraRunsScoredIn2016PerTeam(matchesData, deliveriesData);
+//        findExtraRunsScoredIn2016PerTeam(matchesData, deliveriesData);
+        findTopEconomicalBowlersOf2015(matchesData, deliveriesData);
     }
+
+    private static void findTopEconomicalBowlersOf2015(List<String[]> matchesData, List<String[]> deliveriesData) {
+        Set<String> matchIdsOf2015Matches = new TreeSet<>();
+        for (String[] match : matchesData){
+            if(match[1].equals("2015")){
+                matchIdsOf2015Matches.add(match[0]);
+            }
+        }
+        Map<String, Integer[]> bowlersWithTheirRunsGivesAndDeliveries = new HashMap<>();
+            for(String[] delivery:deliveriesData){
+                if(matchIdsOf2015Matches.contains(delivery[0])){
+                Integer[] runsAndDeliveries = {Integer.parseInt(delivery[17]),1};
+                if(bowlersWithTheirRunsGivesAndDeliveries.containsKey(delivery[8])){
+                    runsAndDeliveries[0] += bowlersWithTheirRunsGivesAndDeliveries.get(delivery[8])[0];
+                    runsAndDeliveries[1] += bowlersWithTheirRunsGivesAndDeliveries.get(delivery[8])[1];
+                }
+                bowlersWithTheirRunsGivesAndDeliveries.put(delivery[8], runsAndDeliveries);
+            }
+        }
+        Map<String, Double> bowlersWithTheirEconomy = new HashMap<>();
+        for(Map.Entry<String, Integer[]> m : bowlersWithTheirRunsGivesAndDeliveries.entrySet()){
+            Integer[] runsAndDeliveries = m.getValue();
+            bowlersWithTheirEconomy.put(m.getKey(), ((double) runsAndDeliveries[0])/((double) runsAndDeliveries[1]));
+        }
+        List <Map.Entry<String, Double>> bowlersSortedByTheirEconomy =new ArrayList<>(bowlersWithTheirEconomy.entrySet());
+        Collections.sort(bowlersSortedByTheirEconomy, new Comparator<Map.Entry<String, Double>>() {
+            public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
+                if(o1.getValue() -o2.getValue() > 0) return -1;
+                else if(o1.getValue() -o2.getValue() < 0) return  -1;
+                return  0;
+            }
+        });
+         for (Map.Entry<String, Double> m : bowlersSortedByTheirEconomy){
+             System.out.println( m.getKey() + " "+ m.getValue());
+         }
+    }
+
+//    private static Map<String, Integer> sortHashMapByValue(Map<String, Double> bowlersWithTheirEconomy) {
+//          Collections.sort(bowlersWithTheirEconomy, new Comparator<Integer>(){
+//
+//          })
+//    }
+
 
     private static void findExtraRunsScoredIn2016PerTeam(List<String[]> matchesData, List<String[]> deliveriesData) {
            Set<String> matchIdsOf2016Matches = new TreeSet<>();
