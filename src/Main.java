@@ -4,18 +4,29 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) {
 
         List<String[]>  deliveriesData = getDeliveriesData();
         List<String[]>  matchesData = getMatchesData();
-        findMatchesPlayedPerYearInIpl();
+        findMatchesPlayedPerYearInIpl(matchesData);
+        find
     }
 
-    private static void findMatchesPlayedPerYearInIpl() {
-
+    private static void findMatchesPlayedPerYearInIpl(List<String[]>  matchesData ) {
+       Map<Integer, Integer> matchesPerYear =  new TreeMap<>();
+       for (String[] match : matchesData){
+           matchesPerYear.put(Integer.parseInt(match[1]) , matchesPerYear.getOrDefault(Integer.parseInt(match[1]) ,0)+1);
+       }
+        for (Map.Entry m : matchesPerYear.entrySet()){
+            System.out.println( m.getKey()+" "+m.getValue());
+        }
     }
+
+
 
     public static List<String[]> getMatchesData() {
         List< String[]>  matchesData  = new ArrayList<>();
