@@ -12,11 +12,38 @@ public class Main {
 //        findMatchesPlayedPerYearInIpl(matchesData);
 //        findMatchesWonPerTeam(matchesData);
 //        findExtraRunsScoredIn2016PerTeam(matchesData, deliveriesData);
-        findTopEconomicalBowlersOf2015(matchesData, deliveriesData);
+//        findTopEconomicalBowlersOf2015(matchesData, deliveriesData);
+//        findMostRunsScoredByAPlayerInChennaiIn2011(matchesData, deliveriesData);
+    }
+
+    private static void findMostRunsScoredByAPlayerInChennaiIn2011(List<String[]> matchesData, List<String[]> deliveriesData) {
+    Set<String> matchIdOfMatchesIn2016InChennai = new HashSet<>();
+    for(String[] match : matchesData){
+        if(match[1].equals("2011") && match[2].equals("Chennai")){
+            matchIdOfMatchesIn2016InChennai.add(match[0]);
+        }
+    }
+    Map<String, Integer> runsPerBatsmanIn2016InChennai = new HashMap<>();
+    for(String[] delivery : deliveriesData){
+        if(!matchIdOfMatchesIn2016InChennai.contains(delivery[0])){
+            continue;
+        }
+        try{
+            runsPerBatsmanIn2016InChennai.put(delivery[6], runsPerBatsmanIn2016InChennai.getOrDefault(delivery[6], 0)+Integer.parseInt(delivery[15]));
+        }
+        catch (NumberFormatException e){
+            continue;
+        }
+    }
+    List<Map.Entry<String, Integer>> playersSortedbyRuns = new ArrayList<>(runsPerBatsmanIn2016InChennai.entrySet());
+    Collections.sort(playersSortedbyRuns, (a,b) -> b.getValue() - a.getValue());
+    for(Map.Entry<String, Integer> m : playersSortedbyRuns){
+        System.out.println(m.getKey()+" :- "+ m.getValue());
+    }
     }
 
     private static void findTopEconomicalBowlersOf2015(List<String[]> matchesData, List<String[]> deliveriesData) {
-        Set<String> matchIdsOf2015Matches = new TreeSet<>();
+        Set<String> matchIdsOf2015Matches = new HashSet<>();
         for (String[] match : matchesData){
             if(match[1].equals("2015")){
                 matchIdsOf2015Matches.add(match[0]);
@@ -39,12 +66,13 @@ public class Main {
             bowlersWithTheirEconomy.put(m.getKey(), ((double) runsAndDeliveries[0])/((double) runsAndDeliveries[1]));
         }
         List <Map.Entry<String, Double>> bowlersSortedByTheirEconomy =new ArrayList<>(bowlersWithTheirEconomy.entrySet());
-        Collections.sort(bowlersSortedByTheirEconomy, new Comparator<Map.Entry<String, Double>>() {
-            public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-                if(o1.getValue() -o2.getValue() > 0) return 1;
-                return  -1;
-            }
-        });
+//        Collections.sort(bowlersSortedByTheirEconomy, new Comparator<Map.Entry<String, Double>>() {
+//            public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
+//                if(o1.getValue() -o2.getValue() > 0) return 1;
+//                return  -1;
+//            }
+//        });
+        Collections.sort(bowlersSortedByTheirEconomy,(a,b)-> a.getValue().compareTo(b.getValue()));
         System.out.println( bowlersSortedByTheirEconomy.get(0).getKey() + " "+ bowlersSortedByTheirEconomy.get(0).getValue());
 
 //        for (Map.Entry<String, Double> m : bowlersSortedByTheirEconomy){
