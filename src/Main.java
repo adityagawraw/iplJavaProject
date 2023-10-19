@@ -14,7 +14,26 @@ public class Main {
 //        findExtraRunsScoredIn2016PerTeam(matchesData, deliveriesData);
         findTopEconomicalBowlersOf2015(matchesData, deliveriesData);
 //        findMostRunsScoredByAPlayerInChennaiIn2011(matchesData, deliveriesData);
+//        findMostSixesScoredByEachBatsmanInATeam(deliveriesData, "Royal Challengers Bangalore");
+//findMostSixesScoringBatsmanOfEachTeam(deliveriesData);
+    }
 
+    private static void findMostSixesScoringBatsmanOfEachTeam(List<String[]> deliveriesData) {
+
+    }
+
+    private static void findMostSixesScoredByEachBatsmanInATeam(List<String[]> deliveriesData, String team) {
+        Map<String, Integer> sixesByEachBatsman = new HashMap<>();
+        for (String[] delivery:deliveriesData){
+            if(delivery[2].equals(team) && delivery[17].equals("6")){
+                sixesByEachBatsman.put(delivery[6], sixesByEachBatsman.getOrDefault(delivery[6], 0)+1);
+            }
+        }
+        List<Map.Entry<String, Integer>> batsmanSortedBySixesScored = new ArrayList<>(sixesByEachBatsman.entrySet());
+        Collections.sort(batsmanSortedBySixesScored, (a, b )-> b.getValue()-a.getValue());
+        for(Map.Entry<String, Integer> m: batsmanSortedBySixesScored){
+            System.out.println(m.getKey()+" "+ m.getValue());
+        }
     }
 
     private static void findMostRunsScoredByAPlayerInChennaiIn2011(List<String[]> matchesData, List<String[]> deliveriesData) {
@@ -70,7 +89,7 @@ public class Main {
         Map<String, Double> bowlersWithTheirEconomy = new HashMap<>();
         for(Map.Entry<String, Integer[]> m : bowlersWithTheirRunsGivesAndDeliveries.entrySet()){
             Integer[] runsAndDeliveries = m.getValue();
-            bowlersWithTheirEconomy.put(m.getKey(), ((double) runsAndDeliveries[0])/((double) runsAndDeliveries[1]));
+            bowlersWithTheirEconomy.put(m.getKey(), ((double) runsAndDeliveries[0])/((double) runsAndDeliveries[1])*6);
         }
         List <Map.Entry<String, Double>> bowlersSortedByTheirEconomy =new ArrayList<>(bowlersWithTheirEconomy.entrySet());
 //        Collections.sort(bowlersSortedByTheirEconomy, new Comparator<Map.Entry<String, Double>>() {
@@ -80,6 +99,7 @@ public class Main {
 //            }
 //        });
         Collections.sort(bowlersSortedByTheirEconomy,(a,b)-> a.getValue().compareTo(b.getValue()));
+        System.out.println(bowlersSortedByTheirEconomy.size());
         System.out.println( bowlersSortedByTheirEconomy.get(0).getKey() + " "+ bowlersSortedByTheirEconomy.get(0).getValue());
 
 //        for (Map.Entry<String, Double> m : bowlersSortedByTheirEconomy){
@@ -90,7 +110,7 @@ public class Main {
 
 
     private static void findExtraRunsScoredIn2016PerTeam(List<String[]> matchesData, List<String[]> deliveriesData) {
-           Set<String> matchIdsOf2016Matches = new TreeSet<>();
+           Set<String> matchIdsOf2016Matches = new HashSet<>();
            for (String[] match : matchesData){
                if(match[1].equals("2016")){
                    matchIdsOf2016Matches.add(match[0]);
@@ -108,7 +128,7 @@ public class Main {
     }
 
     private static void findMatchesWonPerTeam(List<String[]> matchesData) {
-        Map<String, Integer> matchesWonPerTeam =  new TreeMap<>();
+        Map<String, Integer> matchesWonPerTeam =  new HashMap<>();
         for (String[] match : matchesData){
             if(match[10].equals("")){
                 continue;
@@ -121,7 +141,7 @@ public class Main {
     }
 
     private static void findMatchesPlayedPerYearInIpl(List<String[]>  matchesData ) {
-       Map<Integer, Integer> matchesPerYear =  new TreeMap<>();
+       Map<Integer, Integer> matchesPerYear =  new HashMap<>();
        for (String[] match : matchesData){
            matchesPerYear.put(Integer.parseInt(match[1]) , matchesPerYear.getOrDefault(Integer.parseInt(match[1]) ,0)+1);
        }
