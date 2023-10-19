@@ -12,8 +12,9 @@ public class Main {
 //        findMatchesPlayedPerYearInIpl(matchesData);
 //        findMatchesWonPerTeam(matchesData);
 //        findExtraRunsScoredIn2016PerTeam(matchesData, deliveriesData);
-//        findTopEconomicalBowlersOf2015(matchesData, deliveriesData);
+        findTopEconomicalBowlersOf2015(matchesData, deliveriesData);
 //        findMostRunsScoredByAPlayerInChennaiIn2011(matchesData, deliveriesData);
+
     }
 
     private static void findMostRunsScoredByAPlayerInChennaiIn2011(List<String[]> matchesData, List<String[]> deliveriesData) {
@@ -52,7 +53,13 @@ public class Main {
         Map<String, Integer[]> bowlersWithTheirRunsGivesAndDeliveries = new HashMap<>();
             for(String[] delivery:deliveriesData){
                 if(matchIdsOf2015Matches.contains(delivery[0])){
-                Integer[] runsAndDeliveries = {Integer.parseInt(delivery[17]),1};
+                Integer[] runsAndDeliveries = {0,0};
+                    if(delivery[10].equals("0") || delivery[13].equals("0")){
+                        runsAndDeliveries[1]= 1;
+                    }
+                    if(delivery[11].equals("0") || delivery[12].equals("0") ){
+                        runsAndDeliveries[0] = Integer.parseInt(delivery[17]);
+                    }
                 if(bowlersWithTheirRunsGivesAndDeliveries.containsKey(delivery[8])){
                     runsAndDeliveries[0] += bowlersWithTheirRunsGivesAndDeliveries.get(delivery[8])[0];
                     runsAndDeliveries[1] += bowlersWithTheirRunsGivesAndDeliveries.get(delivery[8])[1];
@@ -80,11 +87,6 @@ public class Main {
 //         }
     }
 
-//    private static Map<String, Integer> sortHashMapByValue(Map<String, Double> bowlersWithTheirEconomy) {
-//          Collections.sort(bowlersWithTheirEconomy, new Comparator<Integer>(){
-//
-//          })
-//    }
 
 
     private static void findExtraRunsScoredIn2016PerTeam(List<String[]> matchesData, List<String[]> deliveriesData) {
